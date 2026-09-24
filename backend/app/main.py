@@ -38,6 +38,13 @@ def health():
         "status": "OK"
     }
 
+@app.post("/generate-slides")
+def generate_slide_content(request: PresentationRequest):
+    # Generate slide content using Gemini AI
+    presentation_data = generate_slides(request.notes)
+
+    # Return AI-generated slide data for frontend preview
+    return presentation_data
 
 @app.post("/generate")
 def generate_presentation(request: PresentationRequest):

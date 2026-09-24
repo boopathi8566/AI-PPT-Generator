@@ -1147,13 +1147,21 @@ function applyCustomization(){
   render();
 }
 
-function generate(mode){
-  let n = Number(document.getElementById(mode === 'full' ? 'slides1' : 'slides2').value);
+async function generate(mode){
+
+  let n = Number(
+    document.getElementById(
+      mode === 'full' ? 'slides1' : 'slides2'
+    ).value
+  );
+
   let topic = mode === 'quick'
     ? document.getElementById('topic').value.trim()
     : 'Your Presentation';
+
   let content = document.getElementById('content').value.trim();
 
+  // Validation
   if(mode === 'quick' && !topic){
     alert('Please enter a topic.');
     return;
@@ -1164,75 +1172,105 @@ function generate(mode){
     return;
   }
 
-  activeTheme = Math.floor(Math.random() * 8);
-  activeDesign = Math.floor(Math.random() * 8);
+  // Prepare notes for Gemini
+  const notes = mode === 'quick'
+    ? topic
+    : content;
 
-  applyTheme(activeTheme);
-  showingAllThemes = false;
-  showingAllDesigns = false;
-  renderThemeOptions();
+  // Show loading message
+  document.getElementById('status').textContent =
+    '✨ Gemini AI is generating your presentation...';
 
-  deck = [];
+  try {
 
-  if(mode === 'quick'){
-    const titles = [
-      'Introduction',
-      'Key Concepts',
-      'How It Works',
-      'Applications',
-      'Benefits',
-      'Challenges',
-      'Future Scope',
-      'Conclusion'
-    ];
+    // Send content to FastAPI + Gemini
+    const response = await fetch(
+      "http://127.0.0.1:8000/generate-slides",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          notes: notes,
+          theme: activeTheme,
+          design: activeDesign
+        })
+      }
+    );
 
-    for(let i = 0; i < n; i++){
-      deck.push({
-        title: i === 0 ? topic : (titles[i - 1] || 'Key Takeaways'),
-        bullets: i === 0
-          ? [
-              `Understanding ${topic}`,
-              `Why this topic matters`,
-              `Overview of the presentation`
-            ]
-          : [
-              `AI-generated points for ${topic}`,
-              `Important ideas and practical context`,
-              `Key takeaway for this section`
-            ]
-      });
+    if(!response.ok){
+      throw new Error("AI generation failed");
     }
-  } else {
-    const chunks = content.split(/\n+/).filter(Boolean);
 
-    for(let i = 0; i < n; i++){
-      deck.push({
-        title: i === 0 ? 'Overview' : `Section ${i + 1}`,
-        bullets: (
-          chunks.slice(i * 3, i * 3 + 3).length
-            ? chunks.slice(i * 3, i * 3 + 3)
-            : [
-                'Content organized by AI',
-                'Key information summarized clearly',
-                'Ready for presentation'
-              ]
-        ).map(x => x.replace(/^[-•*]\s*/, '').slice(0, 130))
-      });
+    // Get Gemini response
+    const data = await response.json();
+
+    console.log("Gemini response:", data);
+
+    // Check AI response
+    if(!data.slides || !Array.isArray(data.slides)){
+      throw new Error("Invalid slide data received");
     }
+
+    // Convert Gemini format → your preview format
+    deck = data.slides
+      .slice(0, n)
+      .map(slide => ({
+        title: slide.title || "Untitled Slide",
+        bullets: Array.isArray(slide.content)
+          ? slide.content
+          : []
+      }));
+
+    // If AI returned fewer slides
+    if(deck.length === 0){
+      throw new Error("No slides generated");
+    }
+
+    // AI suggests a random initial theme/design
+    activeTheme = Math.floor(Math.random() * 8);
+    activeDesign = Math.floor(Math.random() * 8);
+
+    applyTheme(activeTheme);
+
+    showingAllThemes = false;
+    showingAllDesigns = false;
+
+    renderThemeOptions();
+
+    // Start preview from first slide
+    current = 0;
+
+    document.getElementById('preview').classList.add('show');
+
+    document.getElementById('status').textContent =
+      '✨ AI-generated presentation — choose your theme and design';
+
+    updateSelectionText();
+
+    render();
+
+    // Scroll to preview
+    document.getElementById('preview').scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+
+  } catch(error) {
+
+    console.error("Generation error:", error);
+
+    document.getElementById('status').textContent =
+      '❌ AI generation failed.';
+
+    alert(
+      "Could not generate the presentation.\n\n" +
+      "Make sure the FastAPI server is running."
+    );
   }
-
-  current = 0;
-  document.getElementById('preview').classList.add('show');
-  document.getElementById('status').textContent = 'AI suggested designs — choose one';
-  renderThemeOptions();
-  updateSelectionText();
-  render();
-
-  document.getElementById('preview').scrollIntoView({
-    behavior: 'smooth',
-    block: 'start'
-  });
 }
+
 async function downloadPpt(){
   const topic = document.getElementById('topic').value.trim();
   const content = document.getElementById('content').value.trim();
