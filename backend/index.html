@@ -1185,8 +1185,7 @@ async function generate(mode){
 
     // Send content to FastAPI + Gemini
     const response = await fetch("/generate-slides", {
-      {
-        method: "POST",
+      method: "POST",
         headers: {
           "Content-Type": "application/json"
         },
