@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GEN PPT — Powered by AI</title>
+<style>
+*{box-sizing:border-box}
+:root{--accent:#5b5cf0;--ink:#172033;--muted:#68738a;--line:#e7eaf2;--bg:#f6f7fb}
+body{margin:0;font-family:Inter,Segoe UI,Arial,sans-serif;background:linear-gradient(135deg,#f7f8ff,#eef2ff);color:var(--ink)}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+.app{min-height:100vh}
+.header{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 6%;position:sticky;top:0;z-index:10}
+.logo{display:flex;align-items:center;gap:11px;font-weight:800;font-size:21px}.logoMark{width:38px;height:38px;border-radius:11px;background:linear-gradient(135deg,#5b5cf0,#8b5cf6);color:#fff;display:grid;place-items:center;font-size:19px}.badge{font-size:11px;background:#eef0ff;color:#4f46e5;padding:5px 8px;border-radius:20px;font-weight:700}
+.hero{text-align:center;padding:48px 20px 30px}.hero h1{font-size:42px;margin:0 0 10px;letter-spacing:-1.5px}.hero p{margin:0;color:var(--muted);font-size:16px}
+.modes{width:min(1100px,92%);margin:10px auto 45px;display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.mode{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:0 12px 35px #24346b0d;transition:.2s;position:relative}
+.mode:hover{transform:translateY(-3px);box-shadow:0 18px 45px #24346b16}
+.mode.primary{border:2px solid #dfe0ff}.modeHead{display:flex;gap:14px;align-items:flex-start;margin-bottom:20px}.icon{width:48px;height:48px;border-radius:14px;background:#eef0ff;display:grid;place-items:center;font-size:23px}.mode h2{margin:0 0 5px;font-size:20px}.modeHead p{margin:0;color:var(--muted);font-size:13px;line-height:1.4}
+label{display:block;font-size:13px;font-weight:700;margin:15px 0 7px}
+textarea,input,select{width:100%;border:1px solid #dfe3ec;border-radius:12px;background:#fbfcff;outline:none;padding:13px;color:var(--ink)}
+textarea{min-height:155px;resize:vertical;line-height:1.5}input:focus,textarea:focus,select:focus{border-color:#7c7ff6;box-shadow:0 0 0 3px #5b5cf012}
+.row{display:grid;grid-template-columns:1fr 150px;gap:12px}
+.btn{width:100%;border:0;border-radius:12px;padding:13px 16px;font-weight:800;margin-top:18px}.btnPrimary{background:linear-gradient(135deg,#5b5cf0,#7657e8);color:#fff;box-shadow:0 8px 20px #5b5cf033}.btnSecondary{background:#f1f2ff;color:#4f46e5}
+.hint{font-size:11px;color:#8a93a6;margin-top:8px}
+.preview{width:min(1100px,92%);margin:0 auto 50px;background:#fff;border:1px solid var(--line);border-radius:22px;padding:25px;display:none;box-shadow:0 15px 45px #24346b12}.preview.show{display:block}
+.previewTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.previewTop h2{margin:0;font-size:18px}.status{font-size:12px;color:#4f46e5;background:#eef0ff;padding:7px 10px;border-radius:20px;font-weight:700}
+.stage{background:#eef0f6;border-radius:16px;padding:30px;display:flex;justify-content:center}
+.slide{width:min(780px,100%);aspect-ratio:16/9;background:#fff;border-radius:8px;box-shadow:0 12px 30px #00000012;padding:44px;position:relative;overflow:hidden}
+.slide .bar{position:absolute;left:0;top:0;width:9px;height:100%;background:var(--accent)}.slide h3{font-size:30px;margin:0 0 20px}.slide ul{font-size:18px;line-height:1.8;margin:0;padding-left:24px}
+.slide.two #slideBullets{columns:2}.slide.cards #slideBullets{list-style:none;padding:0;display:grid;grid-template-columns:1fr 1fr;gap:12px}.slide.cards li{background:#f4f5fa;border-radius:10px;padding:12px}
+.slide.split h3{width:52%;padding-top:20px}.slide.split ul{width:52%}.slide.split:after{content:'VISUAL';position:absolute;right:35px;top:55px;width:35%;height:65%;border-radius:14px;background:linear-gradient(135deg,var(--accent),#ffffff);display:grid;place-items:center;color:#fff;font-weight:800;letter-spacing:2px}
+.slide.statement{text-align:center;display:flex;flex-direction:column;justify-content:center}.slide.statement h3{font-size:42px}.slide.statement ul{font-size:15px;list-style:none;padding:0;color:#6b7280}
+.slide.dashboard #slideBullets{list-style:none;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.slide.dashboard li{border-top:5px solid var(--accent);background:#f6f7fb;padding:18px;border-radius:8px}
+.slide.timeline #slideBullets{list-style:none;padding:0;border-left:4px solid var(--accent)}.slide.timeline li{padding:8px 0 8px 18px}
+.slide.magazine h3{font-size:36px}.slide.magazine ul{max-width:75%;font-size:17px}
+.slide.image h3{margin-top:0}.slide.image:after{content:'IMAGE / VISUAL';position:absolute;right:40px;bottom:65px;width:42%;height:45%;background:#eef0f5;border-radius:12px;display:grid;place-items:center;color:#8a93a6;font-size:11px;font-weight:700}
+.slide.compare #slideBullets{columns:2}.slide.compare li{break-inside:avoid;padding:10px;border-bottom:2px solid #edf0f5}
+.slide.quote{text-align:center;padding-top:75px}.slide.quote h3:before{content:'“';font-size:70px;color:var(--accent);display:block;line-height:.5}.slide.grid #slideBullets{list-style:none;padding:0;display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.slide.grid li{background:#f5f6fa;padding:14px;border-radius:8px}
+.slide.elegant{font-family:Georgia,serif}.slide.tech{background:linear-gradient(145deg,#111827,#26334a);color:#fff}.slide.tech #slideBullets{color:#e5e7eb}.slide.story h3{font-size:38px}
+
+.slideFooter{position:absolute;bottom:22px;right:30px;color:#98a0b1;font-size:11px}
+.controls{display:flex;justify-content:center;gap:10px;margin-top:18px}.controls button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 14px}.controls button:hover{border-color:#aaaefb}
+.features{width:min(1100px,92%);margin:0 auto 55px;display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.feature{background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}.feature b{display:block;margin-bottom:5px}.feature span{font-size:12px;color:var(--muted);line-height:1.5}
+
+/* Combined customization frame */
+.customizeFrame{margin-top:22px;padding:24px;border:1px solid #dfe3ec;border-radius:20px;background:linear-gradient(180deg,#fff 0%,#fafbff 100%);box-shadow:0 12px 35px #24346b0d}
+.customizeTitle{display:flex;align-items:center;gap:13px;margin-bottom:22px}
+.customizeTitle h2{margin:0 0 4px;font-size:20px}.customizeTitle p{margin:0;color:var(--muted);font-size:12px}
+.customizeIcon{width:46px;height:46px;border-radius:13px;background:#eef0ff;display:grid;place-items:center;font-size:22px}
+.customizeSectionHead{margin-bottom:13px}.customizeSectionHead h3{margin:0 0 4px;font-size:16px}.customizeSectionHead span{color:var(--muted);font-size:12px}
+.customizeDivider{height:1px;background:var(--line);margin:23px 0}
+.customizeBottom{margin-top:22px;padding-top:17px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}
+#selectionText{font-size:12px;color:var(--muted);font-weight:700}
+.applyBtn{border:0;border-radius:11px;padding:11px 17px;background:linear-gradient(135deg,#5b5cf0,#7657e8);color:#fff;font-weight:800;box-shadow:0 7px 18px #5b5cf033}
+@media(max-width:800px){.customizeBottom{align-items:stretch;flex-direction:column}.applyBtn{width:100%}}
+
+.themeChooser{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.themeChooser h3{margin:0 0 5px;font-size:16px}.themeChooser p{margin:0 0 14px;color:var(--muted);font-size:12px}
+.themeOptions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.themeCard{border:2px solid transparent;background:#fff;border-radius:14px;padding:9px;text-align:left;cursor:pointer;transition:.18s}
+.themeCard:hover{transform:translateY(-2px);border-color:#c9cbff}.themeCard.selected{border-color:#5b5cf0;box-shadow:0 5px 16px #5b5cf022}
+.themePreview{height:54px;border-radius:9px;margin-bottom:8px;position:relative;overflow:hidden}
+.themePreview:after{content:"";position:absolute;left:10px;right:25px;bottom:10px;height:7px;border-radius:5px;background:#fff8}
+.themeCard b{font-size:11px}.themeCard span{display:block;color:#8a93a6;font-size:10px;margin-top:2px}
+
+
+.designChooser{margin-top:22px;padding-top:20px;border-top:1px solid var(--line)}
+.designChooser h3{margin:0 0 5px;font-size:16px}.designChooser p{margin:0 0 14px;color:var(--muted);font-size:12px}
+.designOptions{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.designCard{border:2px solid transparent;background:#fff;border-radius:14px;padding:8px;text-align:left;cursor:pointer;transition:.18s}
+.designCard:hover{transform:translateY(-2px);border-color:#c9cbff}.designCard.selected{border-color:#5b5cf0;box-shadow:0 5px 16px #5b5cf022}
+.designThumb{height:70px;border-radius:9px;background:#f3f4f8;position:relative;overflow:hidden;padding:9px}
+.designThumb .miniTitle{height:7px;width:45%;border-radius:4px;background:var(--accent);margin-bottom:8px}
+.designThumb .miniLine{height:5px;width:72%;border-radius:3px;background:#cbd1dc;margin:5px 0}
+.designThumb .miniBox{height:30px;border-radius:5px;background:#dfe3eb}
+.designCard b{font-size:11px;display:block;margin-top:7px}.designCard span{font-size:9px;color:#8a93a6}
+@media(max-width:800px){.designOptions{grid-template-columns:1fr 1fr}}
+
+.showMoreBtn{display:block;margin:14px auto 0;border:1px solid #dfe3ec;background:#fff;color:#4f46e5;border-radius:10px;padding:10px 18px;font-weight:800;cursor:pointer}
+.showMoreBtn:hover{background:#f4f4ff;border-color:#aaaefb}
+.themeCard .designTag{display:inline-block;margin-top:5px;font-size:9px;background:#f3f4f8;color:#667085;padding:3px 6px;border-radius:5px}
+
+.downloadRow{display:flex;justify-content:center;gap:10px;margin-top:18px}.downloadBtn{border:0;background:#172033;color:#fff;border-radius:11px;padding:11px 18px;font-weight:800}
+@media(max-width:800px){.themeOptions{grid-template-columns:1fr 1fr}}
+
+@media(max-width:800px){.modes,.features{grid-template-columns:1fr}.hero h1{font-size:32px}.row{grid-template-columns:1fr}.header{padding:0 4%}.stage{padding:12px}.slide{padding:25px}.slide h3{font-size:22px}.slide ul{font-size:14px}}
+
+/* ===== COLORFUL GA12 INTERFACE ===== */
+:root{
+  --accent:#635bff;
+  --accent2:#ec4899;
+  --accent3:#06b6d4;
+  --ink:#172033;
+  --muted:#68738a;
+  --line:#e7eaf2;
+  --bg:#f7f7ff;
+}
+body{
+  background:
+    radial-gradient(circle at 8% 8%,#c4b5fd55,transparent 24%),
+    radial-gradient(circle at 92% 12%,#67e8f955,transparent 22%),
+    radial-gradient(circle at 50% 100%,#f9a8d455,transparent 28%),
+    linear-gradient(135deg,#faf9ff,#f0f9ff 55%,#fff5fb);
+}
+.header{
+  background:rgba(255,255,255,.88)!important;
+  backdrop-filter:blur(14px);
+  box-shadow:0 5px 25px #4f46e50b;
+}
+.logoMark{
+  background:linear-gradient(135deg,#635bff,#ec4899 55%,#06b6d4)!important;
+  box-shadow:0 7px 18px #635bff33;
+}
+.badge{
+  background:linear-gradient(135deg,#ede9fe,#fce7f3)!important;
+  color:#7c3aed!important;
+}
+.hero h1{
+  background:linear-gradient(90deg,#4f46e5,#9333ea,#db2777,#0891b2);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+}
+.mode{
+  background:linear-gradient(145deg,#ffffff,#fbfaff)!important;
+  box-shadow:0 15px 40px #635bff14!important;
+}
+.mode.primary{
+  border:2px solid #c4b5fd!important;
+  background:linear-gradient(145deg,#ffffff,#f6f3ff)!important;
+}
+.mode:nth-child(2){
+  border-color:#a5f3fc;
+  background:linear-gradient(145deg,#ffffff,#f0fdff)!important;
+}
+.mode:nth-child(1) .icon{
+  background:linear-gradient(135deg,#ddd6fe,#f5d0fe);
+}
+.mode:nth-child(2) .icon{
+  background:linear-gradient(135deg,#cffafe,#dbeafe);
+}
+.btnPrimary{
+  background:linear-gradient(100deg,#5b5cf0,#8b5cf6,#ec4899)!important;
+  box-shadow:0 10px 24px #8b5cf633!important;
+}
+.btnSecondary{
+  background:linear-gradient(100deg,#eef2ff,#fdf2f8)!important;
+}
+.feature{
+  background:rgba(255,255,255,.9)!important;
+  box-shadow:0 8px 24px #635bff0d;
+}
+.feature:nth-child(1){border-top:4px solid #8b5cf6}
+.feature:nth-child(2){border-top:4px solid #06b6d4}
+.feature:nth-child(3){border-top:4px solid #ec4899}
+.preview{
+  background:rgba(255,255,255,.94)!important;
+  box-shadow:0 18px 50px #4f46e51a!important;
+}
+.status{
+  background:linear-gradient(100deg,#ede9fe,#fce7f3,#cffafe)!important;
+  color:#6d28d9!important;
+}
+.stage{
+  background:linear-gradient(135deg,#ede9fe,#e0f2fe,#fce7f3)!important;
+}
+.customizeFrame{
+  background:
+    radial-gradient(circle at 100% 0,#ddd6fe55,transparent 28%),
+    radial-gradient(circle at 0 100%,#a5f3fc44,transparent 30%),
+    linear-gradient(180deg,#fff,#fafaff)!important;
+  border:1px solid #d8d7ff!important;
+  box-shadow:0 15px 40px #6366f11a!important;
+}
+.customizeIcon{
+  background:linear-gradient(135deg,#ddd6fe,#fbcfe8,#cffafe)!important;
+}
+.themeCard,.designCard{
+  border-color:#e5e7eb!important;
+}
+.themeCard:hover,.designCard:hover{
+  border-color:#a78bfa!important;
+  box-shadow:0 8px 20px #8b5cf622;
+}
+.themeCard.selected,.designCard.selected{
+  border-color:#635bff!important;
+  box-shadow:0 8px 22px #635bff2b!important;
+  background:linear-gradient(145deg,#fff,#f5f3ff)!important;
+}
+.applyBtn{
+  background:linear-gradient(100deg,#4f46e5,#8b5cf6,#ec4899)!important;
+  box-shadow:0 9px 22px #8b5cf633!important;
+}
+.downloadBtn{
+  background:linear-gradient(100deg,#172033,#4f46e5,#7c3aed)!important;
+  box-shadow:0 9px 22px #4f46e533;
+}
+.controls button:hover{
+  background:linear-gradient(100deg,#f5f3ff,#fdf2f8)!important;
+}
+input,textarea,select{
+  background:linear-gradient(180deg,#fff,#fafbff)!important;
+}
+
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<style id="single-customize-paint-style">
+.single-customize-paint {
+  width: 56px;
+  height: 56px;
+  flex: 0 0 56px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  background: linear-gradient(145deg, #f4dcff, #e0f4ff);
+  box-shadow: 0 7px 18px rgba(70, 80, 140, .10);
+  margin-right: 10px;
+}
+</style>
+
+
+<style id="professional-customize-layout">
+.professional-navigation-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin: 0 0 26px;
+}
+.professional-navigation {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 18px;
+}
+.professional-nav-btn {
+  width: 138px;
+  height: 82px;
+  border: 1px solid rgba(40, 55, 100, .08);
+  border-radius: 18px;
+  background: #fff;
+  color: #17213a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 17px;
+  font-weight: 800;
+  line-height: 1.1;
+  box-shadow: 0 8px 22px rgba(30, 40, 80, .09);
+  cursor: pointer;
+  transition: transform .16s ease, box-shadow .16s ease;
+}
+.professional-nav-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px rgba(30, 40, 80, .13);
+}
+.professional-nav-btn .nav-arrow {
+  font-size: 20px;
+  line-height: 1;
+}
+.professional-counter {
+  min-width: 92px;
+  text-align: center;
+  color: #17213a;
+  font-size: 23px;
+  font-weight: 800;
+  line-height: 1.15;
+}
+.professional-counter span,
+.professional-counter strong {
+  display: block;
+}
+.professional-counter strong {
+  margin-top: 3px;
+  font-size: 25px;
+}
+.professional-customize-below {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin: 0 0 28px;
+  padding: 20px 28px;
+  box-sizing: border-box;
+  border-radius: 22px;
+  background: rgba(255,255,255,.72);
+  border: 1px solid rgba(120, 130, 190, .14);
+  box-shadow: 0 10px 28px rgba(45, 55, 100, .07);
+}
+.single-customize-paint {
+  width: 68px;
+  height: 68px;
+  flex: 0 0 68px;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 34px;
+  background: linear-gradient(145deg, #f4dcff, #e0f4ff);
+  box-shadow: 0 7px 18px rgba(70, 80, 140, .10);
+}
+.customize-copy h2 {
+  margin: 0 0 6px;
+  color: #17213a;
+  font-size: 28px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+.customize-copy p {
+  margin: 0;
+  color: #64708c;
+  font-size: 16px;
+  line-height: 1.45;
+}
+@media (max-width: 700px) {
+  .professional-navigation {
+    gap: 10px;
+  }
+  .professional-nav-btn {
+    width: 115px;
+    height: 74px;
+  }
+  .professional-customize-below {
+    align-items: flex-start;
+  }
+}
+</style>
+
+
+<style id="animated-starfield-style">
+html, body {
+  background: #02050b !important;
+}
+body {
+  color: #eef3ff;
+  overflow-x: hidden;
+}
+#starfield {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -10;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 18% 20%, rgba(72,110,170,.12), transparent 28%),
+    radial-gradient(circle at 82% 70%, rgba(100,72,170,.10), transparent 30%),
+    #02050b;
+}
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -9;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 45%, transparent 0 36%, rgba(0,0,0,.18) 72%, rgba(0,0,0,.45) 100%);
+}
+.star-glass,
+.card,
+.panel,
+section,
+.preview-card,
+.mode-card,
+.customize-card {
+  position: relative;
+}
+.professional-navigation-row,
+.professional-customize-below {
+  background: rgba(7, 13, 26, .68) !important;
+  border-color: rgba(145, 170, 220, .20) !important;
+  box-shadow: 0 14px 40px rgba(0,0,0,.28) !important;
+  backdrop-filter: blur(14px);
+}
+.professional-nav-btn {
+  background: rgba(17, 26, 46, .82) !important;
+  color: #f4f7ff !important;
+  border-color: rgba(155,180,225,.20) !important;
+}
+.professional-nav-btn:hover {
+  background: rgba(28, 42, 70, .92) !important;
+}
+.professional-counter,
+.professional-customize-below h2 {
+  color: #f4f7ff !important;
+}
+.professional-customize-below p {
+  color: #aebbd2 !important;
+}
+.single-customize-paint {
+  background: linear-gradient(145deg, rgba(126,72,185,.45), rgba(45,135,190,.35)) !important;
+  border: 1px solid rgba(180,205,255,.18);
+}
+</style>
+
+
+<style id="visible-space-theme">
+html,body{
+  background:#02050b !important;
+  color:#eef3ff !important;
+}
+body{
+  background-image:
+    radial-gradient(circle at 20% 20%,rgba(55,100,170,.12),transparent 28%),
+    radial-gradient(circle at 80% 70%,rgba(110,55,190,.10),transparent 30%) !important;
+}
+
+/* Header */
+.header{
+  background:rgba(4,9,18,.88) !important;
+  border-bottom:1px solid rgba(160,185,230,.18) !important;
+  color:#f5f7ff !important;
+  backdrop-filter:blur(14px);
+}
+.header .logo,.header .logo span{color:#f5f7ff !important}
+.header .badge{
+  background:rgba(99,91,255,.20) !important;
+  color:#b9baff !important;
+}
+
+/* Hero */
+.hero h1{color:#f7f8ff !important}
+.hero p{color:#aebbd2 !important}
+
+/* Generation cards - actual classes in the interface */
+.modes .mode{
+  background:rgba(10,18,34,.94) !important;
+  color:#eef3ff !important;
+  border-color:rgba(145,170,220,.24) !important;
+  box-shadow:0 18px 45px rgba(0,0,0,.32) !important;
+}
+.modes .mode.primary{
+  border-color:rgba(126,112,255,.72) !important;
+}
+.mode h2{color:#f5f7ff !important}
+.modeHead p{color:#aebbd2 !important}
+.mode label{color:#d3dded !important}
+.mode .hint{color:#8f9db5 !important}
+.mode .icon{
+  background:linear-gradient(145deg,rgba(126,76,255,.30),rgba(37,184,255,.20)) !important;
+}
+
+/* Inputs remain light for strong usability */
+.mode textarea,.mode input,.mode select{
+  background:#f8faff !important;
+  color:#18233c !important;
+  border-color:#cbd5e5 !important;
+}
+.mode textarea::placeholder,.mode input::placeholder{
+  color:#68758b !important;
+}
+.mode .btnPrimary{
+  background:linear-gradient(135deg,#6258ff,#b13cff) !important;
+  color:#fff !important;
+}
+.mode .btnSecondary{
+  background:rgba(99,91,255,.18) !important;
+  color:#c8c7ff !important;
+}
+
+/* Preview */
+.preview{
+  background:rgba(7,13,25,.92) !important;
+  color:#eef3ff !important;
+  border-color:rgba(145,170,220,.22) !important;
+}
+.previewTop h2{color:#f5f7ff !important}
+.status{
+  background:rgba(99,91,255,.20) !important;
+  color:#c9c8ff !important;
+}
+.stage{
+  background:rgba(20,29,48,.82) !important;
+}
+
+/* Existing customization frame */
+.customizeFrame{
+  background:rgba(7,13,25,.92) !important;
+  border-color:rgba(145,170,220,.22) !important;
+  color:#eef3ff !important;
+}
+.customizeTitle h2,.customizeTitle h3{color:#f5f7ff !important}
+.customizeTitle p{color:#aebbd2 !important}
+.customizeSection,.customizeBottom{
+  color:#eef3ff !important;
+}
+.customizeSectionHead h3,
+.customizeSectionHead h4{color:#f5f7ff !important}
+.customizeSectionHead p{color:#9eabc2 !important}
+
+/* Navigation row */
+.professional-navigation-row{
+  background:rgba(7,13,26,.82) !important;
+  border:1px solid rgba(145,170,220,.20) !important;
+  border-radius:24px !important;
+  box-shadow:0 16px 42px rgba(0,0,0,.28) !important;
+}
+.professional-nav-btn{
+  background:rgba(18,28,49,.96) !important;
+  color:#f5f7ff !important;
+  border-color:rgba(160,185,230,.22) !important;
+}
+.professional-counter{color:#f5f7ff !important}
+
+/* Customize row */
+.professional-customize-below{
+  background:rgba(7,13,26,.82) !important;
+  border:1px solid rgba(145,170,220,.20) !important;
+  box-shadow:0 16px 42px rgba(0,0,0,.25) !important;
+}
+.customize-copy h2{color:#f5f7ff !important}
+.customize-copy p{color:#aebbd2 !important}
+.single-customize-paint{
+  background:linear-gradient(145deg,rgba(151,74,255,.55),rgba(31,183,255,.38)) !important;
+  border:1px solid rgba(190,215,255,.24) !important;
+}
+
+/* Theme/design choices */
+.themeGrid > div,.designGrid > div,
+.theme-option,.design-option{
+  color:#f0f4ff !important;
+}
+.themeGrid > div,.designGrid > div{
+  border-color:rgba(145,170,220,.20) !important;
+  background:rgba(14,23,40,.88) !important;
+}
+
+/* Footer */
+.footer{
+  color:#8795ad !important;
+}
+</style>
+
+
+<style id="preview-slide-readable">
+/* Keep the generated slide itself bright, with dark text. */
+.slide-preview,
+.slide-preview *,
+.preview-slide,
+.preview-slide *,
+.generated-slide,
+.generated-slide * {
+  color: #17213a !important;
+}
+
+/* Main generated title */
+.slide-preview h1,
+.slide-preview h2,
+.preview-slide h1,
+.preview-slide h2,
+.generated-slide h1,
+.generated-slide h2 {
+  color: #17213a !important;
+  text-shadow: none !important;
+}
+
+/* Generated slide bullets/body */
+.slide-preview p,
+.slide-preview li,
+.preview-slide p,
+.preview-slide li,
+.generated-slide p,
+.generated-slide li {
+  color: #4b5872 !important;
+}
+
+/* If the renderer uses generic title/body classes */
+.slide-title,
+.slide-subtitle,
+.slide-content,
+.slide-bullet,
+.slide-footer,
+.preview-title,
+.preview-subtitle,
+.preview-content {
+  color: #17213a !important;
+}
+
+/* Preserve the white slide surface */
+.slide-preview,
+.preview-slide,
+.generated-slide {
+  background: #ffffff !important;
+}
+
+/* Make the preview shell slightly lighter while retaining space theme */
+.stage {
+  background: rgba(22, 32, 52, .92) !important;
+}
+</style>
+
+
+<style id="actual-preview-render-fix">
+#slide {
+  background: #ffffff !important;
+  color: #17213a !important;
+}
+#slide #slideTitle {
+  color: #17213a !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: #17213a !important;
+}
+#slide #slideBullets,
+#slide #slideBullets li {
+  color: #4b5872 !important;
+  opacity: 1 !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: #4b5872 !important;
+}
+#slide #slideFooter {
+  color: #718096 !important;
+  opacity: 1 !important;
+  -webkit-text-fill-color: #718096 !important;
+}
+</style>
+
+
+<style id="feature-cards-visible-fix">
+/* Feature cards: strong contrast against the starfield */
+.feature-card,
+.feature-card * {
+  opacity: 1 !important;
+  text-shadow: none !important;
+  filter: none !important;
+}
+.feature-card {
+  background: rgba(12, 21, 38, .94) !important;
+  color: #eef4ff !important;
+  border-color: rgba(145, 170, 220, .25) !important;
+  box-shadow: 0 14px 34px rgba(0,0,0,.30) !important;
+}
+.feature-card h3,
+.feature-card h4,
+.feature-card strong,
+.feature-card .feature-title {
+  color: #f7f9ff !important;
+  -webkit-text-fill-color: #f7f9ff !important;
+}
+.feature-card p,
+.feature-card .feature-description {
+  color: #b8c5da !important;
+  -webkit-text-fill-color: #b8c5da !important;
+}
+.feature-card .icon,
+.feature-card .feature-icon {
+  background: linear-gradient(145deg, rgba(123,77,255,.40), rgba(31,183,255,.28)) !important;
+  color: #ffffff !important;
+}
+
+/* Also cover common alternate feature-card class names in the prototype */
+.feature,
+.info-card,
+.benefit-card {
+  background: rgba(12,21,38,.94) !important;
+  color: #eef4ff !important;
+  border-color: rgba(145,170,220,.25) !important;
+}
+.feature h3,.feature h4,.info-card h3,.info-card h4,.benefit-card h3,.benefit-card h4 {
+  color:#f7f9ff !important;
+}
+.feature p,.info-card p,.benefit-card p {
+  color:#b8c5da !important;
+}
+</style>
+
+
+<style id="ai-tools-preview-style">
+.ai-tools-preview{
+  margin:28px 0;
+  padding:22px 24px;
+  border:1px solid rgba(145,170,220,.20);
+  border-radius:22px;
+  background:rgba(7,13,26,.82);
+  box-shadow:0 16px 40px rgba(0,0,0,.24);
+  backdrop-filter:blur(12px);
+}
+.ai-tools-heading{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:18px;
+  margin-bottom:18px;
+}
+.ai-tools-heading h2{
+  margin:0 0 5px;
+  color:#f5f7ff!important;
+  font-size:24px;
+}
+.ai-tools-heading p{
+  margin:0;
+  color:#aebbd2!important;
+  font-size:14px;
+}
+.ai-tools-badge{
+  padding:7px 12px;
+  border-radius:999px;
+  background:rgba(99,91,255,.20);
+  color:#c9c8ff;
+  font-size:12px;
+  font-weight:800;
+}
+.ai-tools-grid{
+  display:grid;
+  grid-template-columns:repeat(5,minmax(0,1fr));
+  gap:12px;
+}
+.ai-tool-card{
+  min-height:112px;
+  padding:15px;
+  border:1px solid rgba(145,170,220,.18);
+  border-radius:16px;
+  background:rgba(17,27,47,.90);
+  color:#f5f7ff;
+  text-align:left;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  cursor:pointer;
+  transition:.18s ease;
+}
+.ai-tool-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(121,190,255,.60);
+  background:rgba(24,38,65,.96);
+}
+.ai-tool-icon{
+  width:38px;
+  height:38px;
+  border-radius:11px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(145deg,rgba(125,75,255,.40),rgba(30,183,255,.25));
+  font-size:20px;
+}
+.ai-tool-card strong{
+  display:block;
+  color:#f5f7ff!important;
+  font-size:14px;
+  margin-bottom:4px;
+}
+.ai-tool-card small{
+  display:block;
+  color:#aebbd2!important;
+  font-size:11px;
+  line-height:1.4;
+}
+@media(max-width:900px){
+  .ai-tools-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+}
+@media(max-width:520px){
+  .ai-tools-grid{grid-template-columns:1fr;}
+}
+</style>
+
+
+<style id="smart-content-split-preview-style">
+.ai-tools-grid { grid-template-columns:repeat(3,minmax(0,1fr)) !important; }
+.smart-split-tool { border-color:rgba(130,110,255,.42) !important; }
+.smart-split-demo {
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:min(760px,calc(100vw - 36px));
+  z-index:9999;
+  padding:22px;
+  border:1px solid rgba(145,170,220,.28);
+  border-radius:22px;
+  background:rgba(7,13,26,.97);
+  color:#eef4ff;
+  box-shadow:0 30px 90px rgba(0,0,0,.55);
+  backdrop-filter:blur(18px);
+}
+.smart-split-demo-head {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  font-size:20px;
+  font-weight:800;
+}
+.smart-split-demo-head button {
+  border:0;
+  background:rgba(255,255,255,.08);
+  color:#fff;
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  font-size:22px;
+  cursor:pointer;
+}
+.smart-split-demo-flow {
+  display:grid;
+  grid-template-columns:1fr auto 1fr auto 1fr;
+  align-items:center;
+  gap:14px;
+}
+.smart-split-demo-flow > div:not(.smart-split-arrow) {
+  min-height:110px;
+  padding:16px;
+  border:1px solid rgba(145,170,220,.18);
+  border-radius:15px;
+  background:rgba(18,28,49,.9);
+}
+.smart-split-demo-flow strong {
+  display:block;
+  color:#f7f9ff;
+  margin-bottom:8px;
+}
+.smart-split-demo-flow small {
+  color:#aebbd2;
+  line-height:1.45;
+}
+.smart-split-arrow {
+  color:#8faeff;
+  font-size:24px;
+}
+@media(max-width:800px){
+  .ai-tools-grid { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+  .smart-split-demo-flow { grid-template-columns:1fr; }
+  .smart-split-arrow { transform:rotate(90deg); justify-self:center; }
+}
+</style>
+
+</head>
+<body>
+<canvas id="starfield" aria-hidden="true"></canvas>
+<div class="app">
+<header class="header">
+  <div class="logo"><div class="logoMark">G</div><span>GEN PPT</span>  <span class="badge"></span></div>
+  <span style="font-size:13px;color:#7a8396">Smart Presentation Generator</span>
+</header>
+
+<section class="hero">
+  <h1>Create a presentation in seconds.</h1>
+  <p>Choose how much information you have. AI handles the structure, design, colors and visual style.</p>
+</section>
+
+<section class="modes">
+  <div class="mode primary">
+    <div class="modeHead">
+      <div class="icon">📝</div>
+      <div><h2>Full Content Mode</h2><p>You already have your content. Paste it and let AI organize it into slides.</p></div>
+    </div>
+    <label for="content">Your complete content</label>
+    <textarea id="content" placeholder="Paste your notes, paragraphs, points or existing content here..."></textarea>
+    <div class="row">
+      <div><label for="slides1">Number of slides</label><select id="slides1"><option>5</option><option>6</option><option>8</option><option selected>10</option><option>12</option><option>15</option></select></div>
+      <div></div>
+    </div>
+    <button class="btn btnPrimary" onclick="generate('full')">✨ Generate Presentation</button>
+    <div class="hint">AI automatically divides your content and chooses the visual design.</div>
+  </div>
+
+  <div class="mode">
+    <div class="modeHead">
+      <div class="icon">⚡</div>
+      <div><h2>Last-Minute Generation</h2><p>Only know the topic? AI creates the content, structure and design for you.</p></div>
+    </div>
+    <label for="topic">Presentation topic</label>
+    <input id="topic" placeholder="e.g. Artificial Intelligence in Healthcare">
+    <label for="slides2">Number of slides</label>
+    <select id="slides2"><option>5</option><option>6</option><option selected>8</option><option>10</option><option>12</option><option>15</option></select>
+    <button class="btn btnPrimary" onclick="generate('quick')">⚡ Generate Instantly</button>
+    <div class="hint">AI automatically creates slide content, theme, colors, layouts and visual hierarchy.</div>
+  </div>
+</section>
+
+<section class="features">
+  <div class="feature"><b>🤖 AI Auto Design</b><span>Theme and color palette are selected automatically from the topic and content.</span></div>
+  <div class="feature"><b>📐 Smart Layouts</b><span>Different slide layouts are selected according to the information on each slide.</span></div>
+  <div class="feature"><b>🎯 Presentation Ready</b><span>Preview the generated deck before sending it to the PPT generation system.</span></div>
+</section>
+
+<section class="preview" id="preview">
+  <div class="previewTop"><h2>Generated Presentation Preview</h2><span class="status" id="status">AI design ready</span></div>
+  <div class="stage">
+    <div class="slide" id="slide"><div class="bar"></div><h3 id="slideTitle">Your presentation</h3><ul id="slideBullets"></ul><div class="slideFooter" id="slideFooter">Slide 1</div></div>
+  </div>
+  <div class="customizeFrame">
+    <div class="customizeTitle">
+      
+<div>
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+
+<div class="professional-navigation-row">
+  <div class="professional-navigation">
+    <button class="professional-nav-btn" id="prevSlideBtn" onclick="changePreviewSlide(-1)">
+      <span class="nav-arrow">←</span>
+      <span>Previous</span>
+    </button>
+
+    <div class="professional-counter" id="slideCounter">
+      <span>Slide 1 /</span>
+      <strong>8</strong>
+    </div>
+
+    <button class="professional-nav-btn professional-next-btn" id="nextSlideBtn" onclick="changePreviewSlide(1)">
+      <span>Next</span>
+      <span class="nav-arrow">→</span>
+    </button>
+  </div>
+</div>
+
+
+<!-- AI TOOLS PREVIEW -->
+<section class="ai-tools-preview">
+  <div class="ai-tools-heading">
+    <div>
+      <h2>AI Tools</h2>
+      <p>Enhance your presentation with one click.</p>
+    </div>
+    <span class="ai-tools-badge">AI POWERED</span>
+  </div>
+
+  <div class="ai-tools-grid">
+    <button class="ai-tool-card" type="button">
+      <span class="ai-tool-icon">✨</span>
+      <span>
+        <strong>Improve Content</strong>
+        <small>Polish text and create clear bullet points</small>
+      </span>
+    </button>
+
+    <button class="ai-tool-card" type="button">
+      <span class="ai-tool-icon">🖼️</span>
+      <span>
+        <strong>Add Visuals</strong>
+        <small>Suggest visuals based on slide content</small>
+      </span>
+    </button>
+
+    <button class="ai-tool-card" type="button">
+      <span class="ai-tool-icon">📊</span>
+      <span>
+        <strong>Smart Charts</strong>
+        <small>Turn data into charts and infographics</small>
+      </span>
+    </button>
+
+    <button class="ai-tool-card" type="button">
+      <span class="ai-tool-icon">📝</span>
+      <span>
+        <strong>Speaker Notes</strong>
+        <small>Generate notes for every slide</small>
+      </span>
+    </button>
+
+    <button class="ai-tool-card" type="button">
+      <span class="ai-tool-icon">🔄</span>
+      <span>
+        <strong>Regenerate Slide</strong>
+        <small>Redesign only the current slide</small>
+      </span>
+    </button>
+
+    <button class="ai-tool-card smart-split-tool" type="button">
+      <span class="ai-tool-icon">🧩</span>
+      <span>
+        <strong>Smart Content Split</strong>
+        <small>Keep key points and split only when necessary</small>
+      </span>
+    </button>
+  </div>
+</section>
+
+<div class="professional-customize-below">
+  <div class="single-customize-paint" aria-hidden="true">🎨</div>
+  <div class="customize-copy">
+    <h2>Customize Your Presentation</h2>
+    <p>Choose your theme and slide layout in one place before downloading.</p>
+  </div>
+</div>
+
+<div class="customizeSection">
+      <div class="customizeSectionHead">
+        <h3>Theme & Color</h3>
+        <span>Choose the overall color style.</span>
+      </div>
+      <div class="themeOptions" id="themeOptions"></div>
+      <button class="showMoreBtn" id="showMoreBtn" onclick="showMoreThemes()">＋ Show more themes</button>
+    </div>
+
+    <div class="customizeDivider"></div>
+
+    <div class="customizeSection">
+      <div class="customizeSectionHead">
+        <h3>Slide Design / Layout</h3>
+        <span>Choose how your content will be arranged on the slides.</span>
+      </div>
+      <div class="designOptions" id="designOptions"></div>
+      <button class="showMoreBtn" id="showMoreDesignBtn" onclick="showMoreDesigns()">＋ Show more designs</button>
+    </div>
+
+    <div class="customizeBottom">
+      <span id="selectionText">Select a theme and a slide design</span>
+      <button class="applyBtn" onclick="applyCustomization()">✓ Apply & Preview</button>
+    </div>
+  </div>
+  <div class="downloadRow"><button class="downloadBtn" onclick="downloadPpt()">⬇ Download PPT</button></div>
+  <div class="controls"></div>
+</section>
+</div>
+
+<script>
+let deck=[],current=0,activeTheme=0,activeDesign=0,showingAllDesigns=false;
+
+const designs=[
+ {name:'Minimal',desc:'Clean spacing',type:'minimal'},
+ {name:'Two Column',desc:'Text + visual',type:'two'},
+ {name:'Cards',desc:'Information cards',type:'cards'},
+ {name:'Split Hero',desc:'Bold visual split',type:'split'},
+ {name:'Timeline',desc:'Step-by-step flow',type:'timeline'},
+ {name:'Magazine',desc:'Editorial layout',type:'magazine'},
+ {name:'Dashboard',desc:'Stats & metrics',type:'dashboard'},
+ {name:'Big Statement',desc:'One key message',type:'statement'},
+ {name:'Image Focus',desc:'Visual first',type:'image'},
+ {name:'Comparison',desc:'Side-by-side',type:'compare'},
+ {name:'Process',desc:'Workflow layout',type:'process'},
+ {name:'Quote',desc:'Quote + insight',type:'quote'},
+ {name:'Grid',desc:'Modular blocks',type:'grid'},
+ {name:'Elegant',desc:'Premium typography',type:'elegant'},
+ {name:'Tech',desc:'Futuristic structure',type:'tech'},
+ {name:'Story',desc:'Narrative flow',type:'story'}
+];
+
+const palettes=[
+ {name:'Modern Indigo',desc:'Clean • Professional',design:'Minimal',accent:'#4f46e5',bg:'#eef0ff'},
+ {name:'Ocean Blue',desc:'Fresh • Corporate',design:'Tech',accent:'#0284c7',bg:'#e6f7ff'},
+ {name:'Royal Purple',desc:'Creative • Premium',design:'Gradient',accent:'#7c3aed',bg:'#f1eaff'},
+ {name:'Emerald',desc:'Natural • Elegant',design:'Eco',accent:'#059669',bg:'#e9fff7'},
+ {name:'Sunset Orange',desc:'Bold • Energetic',design:'Creative',accent:'#ea580c',bg:'#fff3eb'},
+ {name:'Teal',desc:'Modern • Calm',design:'Glass',accent:'#0d9488',bg:'#e9fffc'},
+ {name:'Rose Pink',desc:'Soft • Creative',design:'Elegant',accent:'#db2777',bg:'#fff0f7'},
+ {name:'Midnight',desc:'Dark • Futuristic',design:'Futuristic',accent:'#1f2937',bg:'#eef1f5'},
+ {name:'Sky Cyan',desc:'Bright • Airy',design:'Clean Cards',accent:'#0891b2',bg:'#e8fbff'},
+ {name:'Royal Navy',desc:'Formal • Strong',design:'Executive',accent:'#1e3a8a',bg:'#eaf0ff'},
+ {name:'Coral',desc:'Warm • Friendly',design:'Soft Shapes',accent:'#f43f5e',bg:'#fff0f2'},
+ {name:'Golden',desc:'Premium • Luxury',design:'Luxury',accent:'#b7791f',bg:'#fff8df'},
+ {name:'Forest',desc:'Deep • Natural',design:'Editorial',accent:'#166534',bg:'#edf8f0'},
+ {name:'Violet',desc:'Modern • Artistic',design:'Aurora',accent:'#8b5cf6',bg:'#f3efff'},
+ {name:'Crimson',desc:'Strong • Dynamic',design:'Bold Blocks',accent:'#b91c1c',bg:'#fff0f0'},
+ {name:'Slate',desc:'Neutral • Modern',design:'Monochrome',accent:'#475569',bg:'#f1f5f9'}
+];
+
+function applyTheme(index){
+  activeTheme=index;
+  const p=palettes[index];
+  document.documentElement.style.setProperty('--accent',p.accent);
+  document.body.style.background=`linear-gradient(135deg,${p.bg},#f6f7fb)`;
+}
+let showingAllThemes=false;
+function renderThemeOptions(){
+  const box=document.getElementById('themeOptions');
+  const choices=showingAllThemes ? palettes.map((_,i)=>i) : palettes.slice(0,8).map((_,i)=>i);
+  box.innerHTML=choices.map(idx=>{
+    const p=palettes[idx];
+    return `<button class="themeCard ${idx===activeTheme?'selected':''}" onclick="selectTheme(${idx})">
+      <div class="themePreview" style="background:linear-gradient(135deg,${p.accent},${p.bg})"></div>
+      <b>${p.name}</b><span>${p.desc}</span><span class="designTag">${p.design}</span>
+    </button>`;
+  }).join('');
+  const more=document.getElementById('showMoreBtn');
+  if(showingAllThemes){more.textContent='− Show fewer themes';}
+  else{more.textContent='＋ Show more themes';}
+  renderDesignOptions();
+}
+function showMoreThemes(){
+  showingAllThemes=!showingAllThemes;
+  renderThemeOptions();
+}
+
+function renderDesignOptions(){
+  const box=document.getElementById('designOptions');
+  const choices=showingAllDesigns ? designs.map((_,i)=>i) : designs.slice(0,8).map((_,i)=>i);
+  box.innerHTML=choices.map(idx=>{
+    const d=designs[idx];
+    return `<button class="designCard ${idx===activeDesign?'selected':''}" onclick="selectDesign(${idx})">
+      <div class="designThumb ${d.type}">
+        <div class="miniTitle"></div>
+        <div class="miniLine"></div>
+        <div class="miniLine" style="width:52%"></div>
+        <div class="miniBox"></div>
+      </div>
+      <b>${d.name}</b><span>${d.desc}</span>
+    </button>`;
+  }).join('');
+  const more=document.getElementById('showMoreDesignBtn');
+  more.textContent=showingAllDesigns?'− Show fewer designs':'＋ Show more designs';
+}
+function showMoreDesigns(){
+  showingAllDesigns=!showingAllDesigns;
+  renderDesignOptions();
+}
+function selectDesign(index){
+  activeDesign=index;
+  renderDesignOptions();
+  updateSelectionText();
+  render();
+}
+
+function selectTheme(index){
+  applyTheme(index);
+  renderThemeOptions();
+  updateSelectionText();
+  render();
+}
+function updateSelectionText(){
+  const theme=palettes[activeTheme].name;
+  const design=designs[activeDesign].name;
+  document.getElementById('selectionText').textContent=`Selected: ${theme} + ${design}`;
+}
+function applyCustomization(){
+  applyTheme(activeTheme);
+  updateSelectionText();
+  document.getElementById('status').textContent='Customization applied';
+  render();
+}
+
+function generate(mode){
+  let n = Number(document.getElementById(mode === 'full' ? 'slides1' : 'slides2').value);
+  let topic = mode === 'quick'
+    ? document.getElementById('topic').value.trim()
+    : 'Your Presentation';
+  let content = document.getElementById('content').value.trim();
+
+  if(mode === 'quick' && !topic){
+    alert('Please enter a topic.');
+    return;
+  }
+
+  if(mode === 'full' && !content){
+    alert('Please paste your content.');
+    return;
+  }
+
+  activeTheme = Math.floor(Math.random() * 8);
+  activeDesign = Math.floor(Math.random() * 8);
+
+  applyTheme(activeTheme);
+  showingAllThemes = false;
+  showingAllDesigns = false;
+  renderThemeOptions();
+
+  deck = [];
+
+  if(mode === 'quick'){
+    const titles = [
+      'Introduction',
+      'Key Concepts',
+      'How It Works',
+      'Applications',
+      'Benefits',
+      'Challenges',
+      'Future Scope',
+      'Conclusion'
+    ];
+
+    for(let i = 0; i < n; i++){
+      deck.push({
+        title: i === 0 ? topic : (titles[i - 1] || 'Key Takeaways'),
+        bullets: i === 0
+          ? [
+              `Understanding ${topic}`,
+              `Why this topic matters`,
+              `Overview of the presentation`
+            ]
+          : [
+              `AI-generated points for ${topic}`,
+              `Important ideas and practical context`,
+              `Key takeaway for this section`
+            ]
+      });
+    }
+  } else {
+    const chunks = content.split(/\n+/).filter(Boolean);
+
+    for(let i = 0; i < n; i++){
+      deck.push({
+        title: i === 0 ? 'Overview' : `Section ${i + 1}`,
+        bullets: (
+          chunks.slice(i * 3, i * 3 + 3).length
+            ? chunks.slice(i * 3, i * 3 + 3)
+            : [
+                'Content organized by AI',
+                'Key information summarized clearly',
+                'Ready for presentation'
+              ]
+        ).map(x => x.replace(/^[-•*]\s*/, '').slice(0, 130))
+      });
+    }
+  }
+
+  current = 0;
+  document.getElementById('preview').classList.add('show');
+  document.getElementById('status').textContent = 'AI suggested designs — choose one';
+  renderThemeOptions();
+  updateSelectionText();
+  render();
+
+  document.getElementById('preview').scrollIntoView({
+    behavior: 'smooth',
+    block: 'start'
+  });
+}
+async function downloadPpt(){
+  const topic = document.getElementById('topic').value.trim();
+  const content = document.getElementById('content').value.trim();
+
+  const notes = topic + (content ? "\n" + content : "");
+
+  if(!notes.trim()){
+    alert("Please enter a topic or content.");
+    return;
+  }
+
+  document.getElementById('status').textContent = "Generating slides with Gemini AI...";
+
+  try{
+    const response = await fetch("http://127.0.0.1:8000/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+    notes: notes,
+    theme: activeTheme,
+    design: activeDesign
+})
+    });
+
+    if(!response.ok){
+      throw new Error("AI generation failed");
+    }
+
+    const blob = await response.blob();
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+
+    a.href = url;
+    a.download = "AI_Generated_Presentation.pptx";
+
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    URL.revokeObjectURL(url);
+
+    document.getElementById('status').textContent =
+      "PPT generated successfully by Gemini AI!";
+
+  }catch(error){
+    console.error(error);
+
+    document.getElementById('status').textContent =
+      "PPT generation failed.";
+
+    alert("Could not generate PPT. Make sure the FastAPI server is running.");
+  }
+}
+
+function getContentImage(slide){
+  const text=((slide.title||'')+' '+(slide.bullets||[]).join(' ')).toLowerCase();
+
+  const images = [
+    {keys:['ai','artificial intelligence','machine learning','deep learning'], url:'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&w=1200&q=80', label:'Artificial Intelligence'},
+    {keys:['data','analytics','database','statistics','dashboard'], url:'https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=1200&q=80', label:'Data & Analytics'},
+    {keys:['technology','software','computer','coding','programming','developer'], url:'https://images.unsplash.com/photo-1498050108023-c5249f4df085?auto=format&fit=crop&w=1200&q=80', label:'Technology'},
+    {keys:['web','website','frontend','backend','html','css','javascript'], url:'https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&w=1200&q=80', label:'Web Development'},
+    {keys:['cyber','security','privacy','hacking','network'], url:'https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=1200&q=80', label:'Cyber Security'},
+    {keys:['robot','robotics','automation','iot'], url:'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&w=1200&q=80', label:'Robotics & Automation'},
+    {keys:['cloud','server','computing','aws','azure'], url:'https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1200&q=80', label:'Cloud Computing'},
+    {keys:['business','market','finance','sales','startup','company'], url:'https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1200&q=80', label:'Business'},
+    {keys:['health','medical','hospital','medicine'], url:'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=1200&q=80', label:'Healthcare'},
+    {keys:['education','student','learning','college','school'], url:'https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1200&q=80', label:'Education'},
+    {keys:['environment','climate','green','sustainability','energy'], url:'https://images.unsplash.com/photo-1473445361085-b9a07f55608b?auto=format&fit=crop&w=1200&q=80', label:'Environment'},
+    {keys:['presentation','communication','team','project'], url:'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80', label:'Presentation & Teamwork'}
+  ];
+
+  const match=images.find(item=>item.keys.some(k=>text.includes(k)));
+  return match || images[2];
+}
+
+function render(){
+  const s=deck[current]; if(!s)return;
+  const slide=document.getElementById('slide');
+  const d=designs[activeDesign];
+  slide.className='slide '+d.type;
+  document.getElementById('slideTitle').textContent=s.title;
+  document.getElementById('slideBullets').innerHTML=s.bullets.map(b=>`<li>${escapeHtml(b)}</li>`).join('');
+  document.getElementById('slideFooter').textContent=`Slide ${current+1} / ${deck.length}`;
+  slide.style.setProperty('--accent',palettes[activeTheme].accent);
+  if (typeof updatePreviewNavigation === 'function') updatePreviewNavigation(deck.length);
+}
+function next(){if(!deck.length)return;current=(current+1)%deck.length;render()}
+function prev(){if(!deck.length)return;current=(current-1+deck.length)%deck.length;render()}
+function escapeHtml(s){return s.replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]))}
+</script>
+
+<script id="wanted-preview-controls-script">
+let wantedPreviewIndex = 0;
+
+function changePreviewSlide(direction) {
+  if (typeof deck !== "undefined" && Array.isArray(deck) && deck.length) {
+    if (typeof current === "number") {
+      current += direction;
+      if (current < 0) current = deck.length - 1;
+      if (current >= deck.length) current = 0;
+      wantedPreviewIndex = current;
+    } else {
+      wantedPreviewIndex += direction;
+      if (wantedPreviewIndex < 0) wantedPreviewIndex = deck.length - 1;
+      if (wantedPreviewIndex >= deck.length) wantedPreviewIndex = 0;
+    }
+
+    if (typeof render === "function") render();
+    updateWantedCounter(deck.length);
+    return;
+  }
+
+  wantedPreviewIndex += direction;
+  if (wantedPreviewIndex < 0) wantedPreviewIndex = 7;
+  if (wantedPreviewIndex > 7) wantedPreviewIndex = 0;
+  updateWantedCounter(8);
+}
+
+function updateWantedCounter(total) {
+  const counter = document.getElementById("slideCounter");
+  if (!counter) return;
+
+  let index = wantedPreviewIndex;
+  if (typeof current === "number") index = current;
+
+  counter.innerHTML = `Slide ${index + 1} /<br>${total || 8}`;
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  const total = (typeof deck !== "undefined" && Array.isArray(deck) && deck.length) ? deck.length : 8;
+  updateWantedCounter(total);
+});
+</script>
+
+
+<script id="animated-starfield-script">
+(() => {
+  const canvas = document.getElementById("starfield");
+  if (!canvas) return;
+  const ctx = canvas.getContext("2d");
+  let w = 0, h = 0, dpr = 1;
+  let stars = [];
+  let animationId;
+
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.floor(w * dpr);
+    canvas.height = Math.floor(h * dpr);
+    canvas.style.width = w + "px";
+    canvas.style.height = h + "px";
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    const count = Math.min(420, Math.max(150, Math.floor((w * h) / 4200)));
+    stars = Array.from({length: count}, () => createStar(true));
+  }
+
+  function createStar(randomDepth = false) {
+    const z = randomDepth ? Math.random() : .2 + Math.random() * .8;
+    return {
+      x: Math.random() * w,
+      y: Math.random() * h,
+      z,
+      r: .35 + z * 1.35,
+      speed: .06 + z * .32,
+      twinkle: Math.random() * Math.PI * 2,
+      twinkleSpeed: .008 + Math.random() * .025
+    };
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+
+    for (const s of stars) {
+      // Gentle diagonal space drift.
+      s.x += s.speed * 0.55;
+      s.y += s.speed * 0.20;
+      s.twinkle += s.twinkleSpeed;
+
+      if (s.x > w + 8 || s.y > h + 8) {
+        s.x = -8;
+        s.y = Math.random() * h;
+      }
+
+      const alpha = .28 + ((Math.sin(s.twinkle) + 1) / 2) * .58;
+      const radius = s.r * (.85 + ((Math.sin(s.twinkle * .7) + 1) / 2) * .25);
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(225,238,255,${alpha})`;
+      ctx.fill();
+
+      // Occasional brighter stars with a subtle glow.
+      if (s.z > .82 && Math.sin(s.twinkle * .8) > .92) {
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, radius * 3.4, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(150,205,255,${alpha * .08})`;
+        ctx.fill();
+      }
+    }
+
+    animationId = requestAnimationFrame(draw);
+  }
+
+  window.addEventListener("resize", resize, {passive: true});
+  resize();
+  draw();
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.hidden) {
+      cancelAnimationFrame(animationId);
+    } else {
+      draw();
+    }
+  });
+})();
+</script>
+
+
+<script id="smart-content-split-preview">
+(() => {
+  const tool = document.querySelector('.smart-split-tool');
+  if (!tool) return;
+
+  tool.addEventListener('click', () => {
+    const existing = document.getElementById('smartSplitDemo');
+    if (existing) {
+      existing.remove();
+      return;
+    }
+
+    const box = document.createElement('div');
+    box.id = 'smartSplitDemo';
+    box.innerHTML = `
+      <div class="smart-split-demo-head">
+        <span>🧩 Smart Content Split</span>
+        <button type="button" aria-label="Close">×</button>
+      </div>
+      <div class="smart-split-demo-flow">
+        <div>
+          <strong>AI analyzes the slide</strong>
+          <small>Finds important points and removes unnecessary detail.</small>
+        </div>
+        <div class="smart-split-arrow">→</div>
+        <div>
+          <strong>Keep key points</strong>
+          <small>Creates concise, presentation-ready content.</small>
+        </div>
+        <div class="smart-split-arrow">→</div>
+        <div>
+          <strong>Split only if needed</strong>
+          <small>If key content is still too much, create 2 balanced slides.</small>
+        </div>
+      </div>
+    `;
+    document.body.appendChild(box);
+    box.querySelector('button').onclick = () => box.remove();
+  });
+})();
+</script>
+
+</body>
+</html>
+<style>
+#slideTitle, #slideBullets, #slideBullets li, #slideFooter {
+  mix-blend-mode: normal !important;
+  filter: none !important;
+}
+</style>
