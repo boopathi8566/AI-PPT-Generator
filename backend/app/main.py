@@ -55,8 +55,8 @@ def generate_presentation(request: PresentationRequest):
     # Step 1: Generate slide content using Gemini AI
     presentation_data = generate_slides(request.notes)
 
-    # Step 2: Create output folder
-    output_folder = "generated_ppt"
+    # Step 2: Create a writable temporary folder on Vercel
+    output_folder = "/tmp/generated_ppt"
     os.makedirs(output_folder, exist_ok=True)
 
     # Step 3: Create PowerPoint file
