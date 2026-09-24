@@ -1184,8 +1184,7 @@ async function generate(mode){
   try {
 
     // Send content to FastAPI + Gemini
-    const response = await fetch(
-      "http://127.0.0.1:8000/generate-slides",
+    const response = await fetch("/generate-slides", {
       {
         method: "POST",
         headers: {
@@ -1285,7 +1284,7 @@ async function downloadPpt(){
   document.getElementById('status').textContent = "Generating slides with Gemini AI...";
 
   try{
-    const response = await fetch("http://127.0.0.1:8000/generate", {
+    const response = await fetch("/generate", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

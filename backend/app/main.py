@@ -2,11 +2,14 @@ from fastapi import FastAPI
 from fastapi.responses import FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from backend.app.ai import generate_slides
-from backend.app.ppt_generator import create_presentation
+from app.ai import generate_slides
+from app.ppt_generator import create_presentation
 import os
 
 app = FastAPI(title="AI PPT Generator")
+@app.get("/")
+def serve_frontend():
+    return FileResponse("index.html")
 
 
 # Allow the frontend HTML to communicate with FastAPI
